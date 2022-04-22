@@ -15,12 +15,18 @@ function App() {
 
 
     const [isGameOver, setIsGameOver] = useState(false);
-    const [percent, setPercent] = useState(0);
+    const [instructionScore, setInstructionScore] = useState(0);
+    const [hintScore, setHintScore] = useState(0);
+    const [helpScore, setHelpScore] = useState(0);
+    const [completenessScore, setCompletenessScore] = useState(0);
 
     useEffect(function () {
-        unityContext.on("GetPercentageCovered", function (percent) {
+        unityContext.on("GetScore", function (instructionScore, hintScore, helpScore, completenessScore) {
             setIsGameOver(true);
-            setPercent(percent);
+            setInstructionScore(instructionScore);
+            setHintScore(hintScore);
+            setHelpScore(helpScore);
+            setCompletenessScore(completenessScore);
         });
     }, []);
 
@@ -36,7 +42,12 @@ function App() {
                 }}
                 unityContext={unityContext}
             />
-            {isGameOver === true && <p>{`You clicked submit. You have covered a total of about ${percent}%`}</p>}
+            {isGameOver === true && <p>{`You clicked submit. 
+                \n Instruction Score: ${instructionScore} 
+                \n Hint Score: ${hintScore} 
+                \n Help Score: ${helpScore} 
+                \n Completeness Score: ${completenessScore}`}</p>
+            }
         </div>
     )
 }
